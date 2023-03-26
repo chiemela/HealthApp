@@ -73,7 +73,7 @@ public class CartLabActivity extends AppCompatActivity {
             totalAmount = totalAmount + Float.parseFloat(strData[1]);
         }
         // display the "totalAmount" in "tvTotal"
-        tvTotal.setText("Total Cost : " + totalAmount);
+        tvTotal.setText("Total Cost :" + totalAmount);
 
         // map the items in "packages" into "list" array object
         list = new ArrayList();
@@ -106,7 +106,11 @@ public class CartLabActivity extends AppCompatActivity {
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CartLabActivity.this, LabTestActivity.class));
+                Intent it = new Intent(CartLabActivity.this, LabTestBookActivity.class);
+                it.putExtra("price", tvTotal.getText());
+                it.putExtra("date", dateButton.getText());
+                it.putExtra("time", timeButton.getText());
+                startActivity(it);
             }
         });
 

@@ -25,6 +25,10 @@ public class Database extends SQLiteOpenHelper {
         // create table "cart"
         String qry2 = "create table cart(username TEXT, product TEXT, price FLOAT, otype TEXT)";
         db.execSQL(qry2);
+
+        // create table "cart"
+        String qry3 = "create table orderplace(username TEXT, fullname TEXT, address TEXT, contactno TEXT, pincode INT, date TEXT, time TEXT, amount FLOAT, otype TEXT)";
+        db.execSQL(qry3);
     }
 
     @Override
@@ -110,6 +114,45 @@ public class Database extends SQLiteOpenHelper {
                 String price = c.getString(2);
                 arr.add(product + "$" + price); // $ is for the separation of the two string because it's a special symbol
             }while (c.moveToNext());
+        }
+        db.close();
+        return arr;
+    }
+
+    // insert new order into "orderplace" table
+    public void addOrder(String username, String fullname, String address, String contact, int pincode, String date, String time, float price, String otype){
+        ContentValues cv = new ContentValues();
+        cv.put("username", username);
+        cv.put("fullname", fullname);
+        cv.put("address", address);
+        cv.put("contactno", contact);
+        cv.put("pincode", pincode);
+        cv.put("date", date);
+        cv.put("time", time);
+        cv.put("amount", price);
+        cv.put("otype", otype);
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert("orderplace", null, cv);
+        db.close();
+    }
+
+    // fetch info from "orderplace" table
+    public ArrayList getOderData(String username){
+        ArrayList<String> arr = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        String str[] = new String[1];
+        str[0] = username;
+        Cursor c = db.rawQuery("select * from orderplace where username = ?", str);
+        if(c.moveToFirst()){
+            do{
+                arr.add(c.getString(1) +
+                        "$" + c.getString(2) +
+                        "$" + c.getString(3) +
+                        "$" + c.getString(4) +
+                        "$" + c.getString(5) +
+                        "$" + c.getString(6) +
+                        "$" + c.getString(7));
+            }while(c.moveToNext());
         }
         db.close();
         return arr;
