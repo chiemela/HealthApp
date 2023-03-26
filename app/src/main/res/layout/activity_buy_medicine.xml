@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back2"
-    tools:context=".LabTestActivity">
-
+    tools:context=".BuyMedicineActivity">
     <Button
-        android:id="@+id/buttonCartCheckout"
+        android:id="@+id/buttonBMGoToCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GO TO CART"
@@ -18,10 +17,10 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textViewCartTitle"
+        android:id="@+id/textViewBMTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lab Test and Packages"
+        android:text="Buy Medicine"
         android:textColor="@color/yellowLight"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -62,7 +61,7 @@
         app:layout_constraintVertical_bias="0.01999998" />
 
     <ListView
-        android:id="@+id/listViewCart"
+        android:id="@+id/listViewBM"
         android:layout_width="350dp"
         android:layout_height="500dp"
         android:layout_margin="10dp"
@@ -71,11 +70,13 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewDDTitle" />
+        app:layout_constraintTop_toBottomOf="@id/textViewDDTitle"
+        app:layout_constraintVertical_bias="0.424" />
 
     <Button
-        android:id="@+id/buttonCartBack"
+        android:id="@+id/buttonBMBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BACK"
