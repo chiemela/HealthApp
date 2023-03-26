@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class CartLabActivity extends AppCompatActivity {
 
@@ -27,6 +29,7 @@ public class CartLabActivity extends AppCompatActivity {
     ArrayList list;
     SimpleAdapter sa;
     TextView tvTotal;
+    ListView lst;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private Button dateButton, timeButton, btnCheckout, btnBack;
@@ -42,6 +45,7 @@ public class CartLabActivity extends AppCompatActivity {
         btnCheckout = findViewById(R.id.buttonCartCheckout);
         btnBack = findViewById(R.id.buttonCartBack);
         tvTotal = findViewById(R.id.textViewCartTotalCost);
+        lst = findViewById(R.id.listViewCart);
 
         SharedPreferences sharedPreferences = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "").toString();
@@ -52,7 +56,7 @@ public class CartLabActivity extends AppCompatActivity {
         // fetch "cart" data and store it in ArrayList
         float totalAmount = 0;
         ArrayList dbData = db.getCartData(username, "Lab");
-        Toast.makeText(getApplicationContext(), "" + dbData, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplicationContext(), "" + dbData, Toast.LENGTH_SHORT).show();
 
         // this will get the result from database and add them to "packages" array
         packages = new String[dbData.size()][];
@@ -71,7 +75,35 @@ public class CartLabActivity extends AppCompatActivity {
         // display the "totalAmount" in "tvTotal"
         tvTotal.setText("Total Cost : " + totalAmount);
 
+        // map the items in "packages" into "list" array object
+        list = new ArrayList();
+        for (int i = 0; i < packages.length; i++){
+            item = new HashMap<String, String>();
+            item.put("line1", packages[i][0]);
+            item.put("line2", packages[i][1]);
+            item.put("line3", packages[i][2]);
+            item.put("line4", packages[i][3]);
+            item.put("line5", packages[i][4]);
+            list.add(item);
+        }
+
+        // set the "list" array object to "multi_lines" layout using adapter
+        sa = new SimpleAdapter(this, list,
+                R.layout.multi_lines,
+                new String[]{"line1", "line2", "line3", "line4", "line5"},
+                new int[]{R.id.line_a, R.id.line_b, R.id.line_c, R.id.line_d, R.id.line_e});
+
+        // display the "sa" adapter to ListView "lst"
+        lst.setAdapter(sa);
+
         btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CartLabActivity.this, LabTestActivity.class));
+            }
+        });
+
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CartLabActivity.this, LabTestActivity.class));
