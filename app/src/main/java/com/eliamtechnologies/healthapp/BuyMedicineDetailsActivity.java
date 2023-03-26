@@ -54,11 +54,11 @@ public class BuyMedicineDetailsActivity extends AppCompatActivity {
 
                 // if item is already in "cart" table then display a Toast else add item to the "cart" table
                 if(db.checkCart(username, product) == 1){
-                    Toast.makeText(getApplicationContext(), "Item already in cart", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Product already added", Toast.LENGTH_SHORT).show();
                 }else {
-                    db.addCart(username, product, price, "lab");
+                    db.addCart(username, product, price, "medicine");
                     Toast.makeText(getApplicationContext(), "New item successfully added to cart", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LabTestDetailsActivity.this, LabTestActivity.class));
+                    startActivity(new Intent(BuyMedicineDetailsActivity.this, BuyMedicineActivity.class));
                 }
             }
         });
