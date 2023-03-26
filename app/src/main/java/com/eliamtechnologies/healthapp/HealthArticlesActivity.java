@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -34,12 +35,15 @@ public class HealthArticlesActivity extends AppCompatActivity {
     ArrayList list;
     SimpleAdapter sa;
     Button btnBack;
-    ListView listView;
+    ListView lst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_articles);
+
+        lst = findViewById(R.id.listViewHA);
+        btnBack = findViewById(R.id.buttonHABack);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,5 +63,23 @@ public class HealthArticlesActivity extends AppCompatActivity {
             item.put("line5", health_details[i][3]);
             list.add(item);
         }
+
+        // this adapter populate the "ListView" in "multi_lines" layout file
+        sa = new SimpleAdapter(this,list,
+                R.layout.multi_lines,
+                new String[]{"line1","line2","line3","line4","line5"},
+                new int[]{R.id.line_a,R.id.line_b,R.id.line_c,R.id.line_d,R.id.line_e});
+        lst.setAdapter(sa);
+
+        // this block of code sends the details of the "LabTestActivity" to "LabTestDetailsActivity"
+        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent it = new Intent(HealthArticlesActivity.this, HealthArticleDetailsActivity.class);
+                it.putExtra("text1", health_details[position][0]);
+                it.putExtra("text3", images[position]);
+                startActivity(it);
+            }
+        });
     }
 }
